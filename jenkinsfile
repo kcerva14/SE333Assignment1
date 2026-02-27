@@ -3,10 +3,22 @@ pipeline {
   tools { maven "M3" }
   
   stages {
-    stage("Build and Test") {
+    stage("Install Dependencies") {
       steps {
         checkout scm
         sh 'mvn -B -ntp -Dmaven.test.failure.ignore verify'
+      }
+    }
+
+  stage("Build"){
+    steps{
+      sh 'mvn -B -ntp -DskipTests package'
+    }
+  }
+
+    stage("Test") {
+      steps {
+        sh 'mvn -B -ntp test'
         junit '**/target/surefire-reports/TEST-*.xml'
       }
     }
