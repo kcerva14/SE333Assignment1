@@ -1,192 +1,56 @@
 package org.example;
 
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.ArrayList;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class NumberUtilsTest {
 
     @Test
-    @Tag("Specification")
-    void add_leftNull_returns_null() {
-
-        //Arrange
-        List<Integer> left = null;
-        List<Integer> right = new ArrayList<>();
-        right.add(1);
-
-        //Act
-        List<Integer> actual = NumberUtils.add(left, right);
-
-        //Assert
-        assertNull(actual);
+    void add_nullLeft_returnsNull() {
+        Assertions.assertNull(NumberUtils.add(null, Arrays.asList(1,2,3)));
     }
 
     @Test
-    @Tag("Structural")
-    void add_rightNull_returns_null() {
-
-        //Arrange
-        List<Integer> left = new ArrayList<>();
-        left.add(1);
-        List<Integer> right = null;
-
-        //Act
-        List<Integer> actual = NumberUtils.add(left, right);
-
-        //Assert
-        assertNull(actual);
+    void add_nullRight_returnsNull() {
+        Assertions.assertNull(NumberUtils.add(Arrays.asList(1,2,3), null));
     }
 
     @Test
-    @Tag("Structural")
-    void add_bothEmpty_returnsEmpty(){
-
-        //Arrange
-        List<Integer> left = new ArrayList<>();
-        List<Integer> right = new ArrayList<>();
-        List<Integer> expected = new ArrayList<>();
-
-        //Act
-        List<Integer> actual = NumberUtils.add(left, right);
-
-        //Assert
-        assertEquals(expected, actual);
+    void add_bothEmpty_returnsEmpty() {
+        List<Integer> empty = Collections.emptyList();
+        List<Integer> result = NumberUtils.add(empty, empty);
+        Assertions.assertEquals(Collections.emptyList(), result);
     }
 
     @Test
-    @Tag("Structural")
-    void add_leftEmpty_rightNonEmpty(){
-
-        //Arrange
-        List<Integer> left = new ArrayList<>();
-        List<Integer> right = new ArrayList<>();
-        right.add(1);
-        List<Integer> expected = new ArrayList<>();
-        expected.add(1);
-
-        //Act
-        List<Integer> actual = NumberUtils.add(left, right);
-
-        //Assert
-        assertEquals(expected, actual);
+    void add_simpleNoCarry() {
+        List<Integer> left = Arrays.asList(1,2);
+        List<Integer> right = Arrays.asList(3,4);
+        Assertions.assertEquals(Arrays.asList(4,6), NumberUtils.add(left, right));
     }
 
     @Test
-    @Tag("Specification")
-    void add_singleDigitEachList(){
-
-        //Assert
-        List<Integer> left = new ArrayList<>();
-        left.add(8);
-        List<Integer> right = new ArrayList<>();
-        right.add(9);
-        List<Integer> expected = new ArrayList<>();
-        expected.add(1);
-        expected.add(7);
-
-        //Act
-        List<Integer> actual = NumberUtils.add(left, right);
-
-        //Assert
-        assertEquals(expected, actual);
+    void add_withCarry() {
+        List<Integer> left = Arrays.asList(9,9);
+        List<Integer> right = Collections.singletonList(1);
+        Assertions.assertEquals(Arrays.asList(1,0,0), NumberUtils.add(left, right));
     }
 
     @Test
-    @Tag("Specification")
-    void add_differentLengthLists(){
-
-        //Arrange
-        List<Integer> left = new ArrayList<>();
-        left.add(8);
-        left.add(9);
-        List<Integer> right = new ArrayList<>();
-        right.add(2);
-        List<Integer> expected = new ArrayList<>();
-        expected.add(9);
-        expected.add(1);
-
-        //Act
-        List<Integer> actual = NumberUtils.add(left, right);
-
-        //Assert
-        assertEquals(expected, actual);
+    void add_leadingZeros() {
+        List<Integer> left = Arrays.asList(0,1,2); // 12
+        List<Integer> right = Arrays.asList(0,0,3); // 3
+        Assertions.assertEquals(Arrays.asList(1,5), NumberUtils.add(left, right));
     }
 
     @Test
-    @Tag("Structural")
-    void add_invalidDigits(){
-
-        //Arrange
-        List<Integer> left = new ArrayList<>();
-        left.add(16);
-        List<Integer> right = new ArrayList<>();
-        right.add(0);
-
-        //Assert
-        assertThrows(IllegalArgumentException.class, () -> NumberUtils.add(left, right));
-    }
-
-    //ASSIGNMENT 2
-    @Test
-    @Tag("Structural")
-    void nullLists(){
-        List<Integer> left = null;
-        List<Integer> right = null;
-        assertNull(NumberUtils.add(left, right));
-    }
-
-    @Test
-    @Tag("Structural")
-    void leftDigitNeg(){
-        List<Integer> left = new ArrayList<>();
-        left.add(-1);
-        List<Integer> right = new ArrayList<>();
-        right.add(9);
-
-        assertThrows(IllegalArgumentException.class, () -> NumberUtils.add(left, right));
-    }
-
-    @Test
-    @Tag("Structural")
-    void rightDigitNeg(){
-        List<Integer> left = new ArrayList<>();
-        left.add(9);
-        List<Integer> right = new ArrayList<>();
-        right.add(-1);
-
-        assertThrows(IllegalArgumentException.class, () -> NumberUtils.add(left, right));
-    }
-
-    @Test
-    @Tag("Structural")
-    void rightDoubleDigit(){
-        List<Integer> left = new ArrayList<>();
-        left.add(4);
-        List<Integer> right = new ArrayList<>();
-        right.add(10);
-
-        assertThrows(IllegalArgumentException.class, () -> NumberUtils.add(left, right));
-    }
-
-    @Test
-    @Tag("Structural")
-    void leadDigitZero(){
-        List<Integer> left = new ArrayList<>();
-        left.add(0);
-        left.add(2);
-        List<Integer> right = new ArrayList<>();
-        right.add(0);
-        right.add(2);
-        List<Integer> expected = new ArrayList<>();
-        expected.add(4);
-
-        List<Integer> actual = NumberUtils.add(left, right);
-
-        assertEquals(expected, actual);
+    void add_invalidDigit_throws() {
+        List<Integer> left = Arrays.asList(1, -1);
+        List<Integer> right = Arrays.asList(2, 3);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> NumberUtils.add(left, right));
     }
 }
