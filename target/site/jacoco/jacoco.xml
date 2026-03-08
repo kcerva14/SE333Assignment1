@@ -2,13 +2,13 @@
 <report>
   <sessioninfo id="mvn test"/>
   <packages>
-    <package name="">
+    <package name="org.example">
       <class name="NumberUtils">
         <counter type="INSTRUCTION" missed="0" covered="100"/>
-        <counter type="BRANCH" missed="0" covered="10"/>
+        <counter type="BRANCH" missed="0" covered="16"/>
         <counter type="LINE" missed="0" covered="20"/>
-        <counter type="COMPLEXITY" missed="0" covered="5"/>
-        <counter type="METHOD" missed="0" covered="3"/>
+        <counter type="COMPLEXITY" missed="0" covered="6"/>
+        <counter type="METHOD" missed="0" covered="1"/>
         <counter type="CLASS" missed="0" covered="1"/>
       </class>
     </package>
