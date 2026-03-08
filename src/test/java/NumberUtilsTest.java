@@ -35,7 +35,7 @@ public class NumberUtilsTest {
         List<Integer> a = Arrays.asList(1, 2, 3);
         List<Integer> b = Arrays.asList(4);
         List<Integer> result = numberUtils.add(a, b);
-        assertEquals(Arrays.asList(5, 2, 3), result);
+        assertEquals(Arrays.asList(1, 2, 7), result);
     }
 
     @Test
@@ -43,7 +43,7 @@ public class NumberUtilsTest {
         List<Integer> a = Arrays.asList(9, 9, 9);
         List<Integer> b = Arrays.asList(1);
         List<Integer> result = numberUtils.add(a, b);
-        assertEquals(Arrays.asList(1, 0, 9, 9), result);
+        assertEquals(Arrays.asList(1, 0, 0, 0), result);
     }
 
     @Test
@@ -51,7 +51,7 @@ public class NumberUtilsTest {
         List<Integer> a = Arrays.asList(9, 9, 9, 9, 9);
         List<Integer> b = Arrays.asList(1);
         List<Integer> result = numberUtils.add(a, b);
-        assertEquals(Arrays.asList(1, 0, 9, 9, 9, 9), result);
+        assertEquals(Arrays.asList(1, 0, 0, 0, 0, 0), result);
     }
 
     @Test
